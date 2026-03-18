@@ -470,15 +470,32 @@
     .process-step {
       text-align: center;
       position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 32px 20px 28px;
+      transition: border-color var(--transition);
+    }
+
+    .process-step:hover {
+      border-color: var(--border-gold);
     }
 
     .process-step-number {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      border: 1px solid var(--border-gold);
+      background: var(--accent-gold-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: 2.2rem;
+      font-size: 1.4rem;
       color: var(--accent-gold);
       line-height: 1;
-      margin-bottom: 12px;
     }
 
     .process-step-label {
@@ -496,14 +513,14 @@
     }
 
     .process-step:not(:last-child)::after {
-      content: '';
+      content: '→';
       position: absolute;
-      top: 16px;
-      right: -12px;
-      width: calc(100% - 60px);
-      height: 1px;
-      background: var(--border-subtle);
-      transform: translateX(100%);
+      top: 50%;
+      right: -16px;
+      transform: translate(50%, -50%);
+      color: var(--text-muted);
+      font-size: 1rem;
+      z-index: 2;
     }
 
     /* ===================== FAQ ===================== */
@@ -736,6 +753,10 @@
         display: none;
       }
 
+      .process-step:nth-child(2)::after {
+        display: none;
+      }
+
       .trust-banner-inner {
         padding: 12px 20px;
       }
@@ -747,7 +768,7 @@
   <!-- HEADER -->
   <header class="site-header">
     <div class="container">
-      <a>Martin Straňanek</a>
+      <a href="mailto:strananekm@gmail.com" class="brand">Martin Straňanek</a>
     </div>
   </header>
 
