@@ -442,6 +442,183 @@
       color: var(--accent-gold);
     }
 
+    /* ===================== PROCESS STEPS ===================== */
+    .process {
+      padding: 72px 0 48px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease 0.5s forwards;
+    }
+
+    .process-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin-bottom: 40px;
+      color: var(--text-primary);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .process-step-number {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2.2rem;
+      color: var(--accent-gold);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .process-step-label {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .process-step-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .process-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      right: -12px;
+      width: calc(100% - 60px);
+      height: 1px;
+      background: var(--border-subtle);
+      transform: translateX(100%);
+    }
+
+    /* ===================== FAQ ===================== */
+    .faq {
+      padding: 64px 0 48px;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease 0.55s forwards;
+    }
+
+    .faq-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+      text-align: center;
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: 20px 40px 20px 0;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      position: relative;
+      transition: color var(--transition);
+    }
+
+    .faq-question:hover {
+      color: var(--accent-gold);
+    }
+
+    .faq-question::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.3rem;
+      color: var(--accent-gold);
+      transition: transform var(--transition);
+    }
+
+    .faq-item.open .faq-question::after {
+      content: '−';
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+    }
+
+    .faq-answer p {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      padding-bottom: 20px;
+    }
+
+    /* ===================== TRUST BANNER ===================== */
+    .trust-banner {
+      text-align: center;
+      padding: 36px 0;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.6s ease 0.6s forwards;
+    }
+
+    .trust-banner-inner {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 100px;
+      padding: 14px 32px;
+    }
+
+    .trust-banner-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .trust-banner-text {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .trust-banner-text strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
     /* ===================== FOOTER ===================== */
     .site-footer {
       padding: 48px 0 40px;
@@ -548,6 +725,19 @@
       .extras-grid {
         grid-template-columns: 1fr;
         max-width: 400px;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px 24px;
+      }
+
+      .process-step:not(:last-child)::after {
+        display: none;
+      }
+
+      .trust-banner-inner {
+        padding: 12px 20px;
       }
     }
   </style>
@@ -722,6 +912,84 @@
     </div>
   </section>
 
+  <!-- PROCESS STEPS -->
+  <section class="process">
+    <div class="container">
+      <h2 class="process-title">Ako to funguje</h2>
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="process-step-number">01</div>
+          <div class="process-step-label">Konzultácia</div>
+          <div class="process-step-desc">Zadarmo si prejdeme vaše požiadavky a ciele</div>
+        </div>
+        <div class="process-step">
+          <div class="process-step-number">02</div>
+          <div class="process-step-label">Návrh a dizajn</div>
+          <div class="process-step-desc">Vytvorím vizuálny návrh na schválenie</div>
+        </div>
+        <div class="process-step">
+          <div class="process-step-number">03</div>
+          <div class="process-step-label">Vývoj</div>
+          <div class="process-step-desc">Naprogramujem web podľa schváleného dizajnu</div>
+        </div>
+        <div class="process-step">
+          <div class="process-step-number">04</div>
+          <div class="process-step-label">Spustenie</div>
+          <div class="process-step-desc">Nasadenie, testovanie a odovzdanie projektu</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="faq-title">Časté otázky</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">Ako dlho trvá vytvorenie webu?</button>
+          <div class="faq-answer">
+            <p>Jednoduchší prezentačný web (Starter) je hotový do 1–2 týždňov. Zložitejšie projekty s databázou a vlastným dizajnom trvajú 3–5 týždňov v závislosti od rozsahu.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Čo ak potrebujem niečo, čo nie je v cenníku?</button>
+          <div class="faq-answer">
+            <p>Žiaden problém — napíšte mi a pripravím individuálnu ponuku na mieru. Každý projekt je jedinečný a rád sa prispôsobím vašim potrebám.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Musím platiť všetko naraz?</button>
+          <div class="faq-answer">
+            <p>Nie. Platba je rozdelená na dve časti — 50 % záloha pri začiatku projektu a zvyšných 50 % pri odovzdaní hotového webu.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Dostanem aj zdrojové súbory?</button>
+          <div class="faq-answer">
+            <p>Áno. Po ukončení projektu vám odovzdám kompletné zdrojové súbory vrátane grafických podkladov. Web je plne váš.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question">Je v cene aj hosting a doména?</button>
+          <div class="faq-answer">
+            <p>Hosting na prvý rok je zahrnutý v cene tvorby webu. Doménu vám pomôžem zaregistrovať — jej cena závisí od zvolenej koncovky (.sk, .com a pod.).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BANNER -->
+  <div class="trust-banner">
+    <div class="container">
+      <div class="trust-banner-inner">
+        <span class="trust-banner-icon" aria-hidden="true">&#9733;</span>
+        <span class="trust-banner-text"><strong>100 % spokojnosť</strong> — ak výsledok nesplní dohodnuté požiadavky, opravím to bezplatne</span>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="container">
@@ -731,7 +999,7 @@
         <p>Všetky weby obsahujú SSL certifikát, hosting na prvý rok a odovzdanie zdrojových súborov.</p>
       </div>
       <div class="footer-brand">
-        © 2025 Martin Straňanek
+        © 2026 Martin Straňanek
       </div>
     </div>
   </footer>
@@ -778,6 +1046,19 @@
               card.style.animation = '';
             });
           }
+        });
+      });
+    })();
+
+    // FAQ accordion
+    (function () {
+      var items = document.querySelectorAll('.faq-item');
+      items.forEach(function (item) {
+        var btn = item.querySelector('.faq-question');
+        btn.addEventListener('click', function () {
+          var isOpen = item.classList.contains('open');
+          items.forEach(function (i) { i.classList.remove('open'); });
+          if (!isOpen) item.classList.add('open');
         });
       });
     })();
