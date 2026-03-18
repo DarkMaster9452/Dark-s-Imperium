@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cenník | SpinteQ – tvorba webov</title>
+  <meta name="description" content="Cenník tvorby a správy webových stránok. SpinteQ – moderné weby pre podnikateľov, kluby a firmy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;0,700;1,600&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================== DESIGN TOKENS ===================== */
+    :root {
+      --bg-primary: #0a0a0b;
+      --bg-card: #121214;
+      --bg-card-featured: #1a1a1d;
+      --accent-gold: #c8a96e;
+      --accent-gold-dim: #a08850;
+      --accent-gold-glow: rgba(200, 169, 110, 0.15);
+      --text-primary: #f0ede6;
+      --text-secondary: #8a8a8e;
+      --text-muted: #5a5a5e;
+      --border-subtle: #1f1f22;
+      --border-gold: rgba(200, 169, 110, 0.3);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --font-display: 'Cormorant', Georgia, serif;
+      --font-body: 'Work Sans', sans-serif;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ===================== GRAIN OVERLAY ===================== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+
+    /* ===================== TYPOGRAPHY ===================== */
+    .heading-display {
+      font-family: var(--font-display);
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--text-primary);
+    }
+
+    .text-body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .text-muted {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ===================== LAYOUT ===================== */
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ===================== SPECTRUM BAR ===================== */
+    .spectrum-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(
+        90deg,
+        #ff4e50,
+        #fc913a,
+        #f9d423,
+        #78c850,
+        #00b4d8,
+        #7b2ff7,
+        #f72585
+      );
+      z-index: 10000;
+      pointer-events: none;
+    }
+
+    /* ===================== HEADER ===================== */
+    .site-header {
+      padding: 28px 0;
+      text-align: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    .site-header .brand {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.95rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .site-header .brand:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.5rem);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 .accent-line {
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: var(--accent-gold);
+      margin: 18px auto 0;
+      border-radius: 2px;
+    }
+
+    .hero .subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      font-weight: 300;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ===================== TOGGLE ===================== */
+    .toggle-wrapper {
+      display: flex;
+      justify-content: center;
+      padding: 32px 0 48px;
+    }
+
+    .toggle {
+      display: flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 100px;
+      padding: 4px;
+      position: relative;
+    }
+
+    .toggle-btn {
+      position: relative;
+      z-index: 2;
+      background: none;
+      border: none;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding: 10px 28px;
+      cursor: pointer;
+      border-radius: 100px;
+      transition: color var(--transition);
+      user-select: none;
+    }
+
+    .toggle-btn.active {
+      color: var(--bg-primary);
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      height: calc(100% - 8px);
+      width: calc(50% - 4px);
+      background: var(--accent-gold);
+      border-radius: 100px;
+      transition: transform var(--transition);
+      z-index: 1;
+    }
+
+    .toggle-slider.right {
+      transform: translateX(100%);
+    }
+
+    /* ===================== SECTIONS ===================== */
+    .pricing-section {
+      display: none;
+      padding-bottom: 24px;
+    }
+
+    .pricing-section.active {
+      display: block;
+    }
+
+    /* ===================== CARDS GRID ===================== */
+    .cards-grid {
+      display: grid;
+      gap: 24px;
+      justify-content: center;
+    }
+
+    .cards-grid.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    /* ===================== CARD ===================== */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 36px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      /* animation */
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-gold);
+      box-shadow: 0 8px 40px rgba(200, 169, 110, 0.06);
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.22s; }
+    .card:nth-child(3) { animation-delay: 0.34s; }
+
+    /* Featured card */
+    .card.featured {
+      background: var(--bg-card-featured);
+      border-color: var(--border-gold);
+      box-shadow: 0 0 60px rgba(200, 169, 110, 0.07);
+    }
+
+    .card.featured:hover {
+      box-shadow: 0 8px 60px rgba(200, 169, 110, 0.12);
+    }
+
+    .card-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .card-price {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 2.75rem;
+      line-height: 1.1;
+      color: var(--accent-gold);
+      margin-bottom: 4px;
+    }
+
+    .card-price .period {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .card-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 20px 0;
+    }
+
+    .card-features {
+      list-style: none;
+      flex: 1;
+      margin-bottom: 28px;
+    }
+
+    .card-features li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding: 6px 0;
+      padding-left: 22px;
+      position: relative;
+      line-height: 1.5;
+    }
+
+    .card-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-gold-dim);
+    }
+
+    /* ===================== CTA BUTTON ===================== */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 13px 24px;
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--accent-gold);
+      background: transparent;
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition), border-color var(--transition);
+      letter-spacing: 0.3px;
+    }
+
+    .btn-cta:hover {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      border-color: var(--accent-gold);
+    }
+
+    .btn-cta.filled {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      border-color: var(--accent-gold);
+    }
+
+    .btn-cta.filled:hover {
+      background: var(--accent-gold-dim);
+      border-color: var(--accent-gold-dim);
+    }
+
+    /* ===================== EXTRAS ===================== */
+    .extras {
+      padding: 64px 0 48px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease 0.45s forwards;
+    }
+
+    .extras-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+    }
+
+    .extras-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .extra-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 24px 20px;
+      transition: border-color var(--transition);
+    }
+
+    .extra-item:hover {
+      border-color: var(--border-gold);
+    }
+
+    .extra-item-name {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .extra-item-price {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--accent-gold);
+    }
+
+    /* ===================== FOOTER ===================== */
+    .site-footer {
+      padding: 48px 0 40px;
+      text-align: center;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 32px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.6s ease 0.55s forwards;
+    }
+
+    .footer-notes p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto 6px;
+    }
+
+    .footer-brand {
+      margin-top: 28px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    .footer-brand a {
+      color: var(--accent-gold-dim);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .footer-brand a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ===================== ANIMATIONS ===================== */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Animate cards when section switches */
+    .pricing-section.active .card {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.5s ease forwards;
+    }
+
+    .pricing-section.active .card:nth-child(1) { animation-delay: 0.05s; }
+    .pricing-section.active .card:nth-child(2) { animation-delay: 0.15s; }
+    .pricing-section.active .card:nth-child(3) { animation-delay: 0.25s; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 900px) {
+      .cards-grid.cols-3 {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cards-grid.cols-3 .card:last-child {
+        grid-column: 1 / -1;
+        max-width: 380px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 40px 0 28px;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .toggle-wrapper {
+        padding: 24px 0 36px;
+      }
+
+      .cards-grid.cols-3,
+      .cards-grid.cols-2 {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .cards-grid.cols-3 .card:last-child {
+        max-width: none;
+      }
+
+      .card {
+        padding: 32px 24px 28px;
+      }
+
+      .card-price {
+        font-size: 2.25rem;
+      }
+
+      .extras-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="https://spinteq.sk" class="brand" aria-label="Martin Straňanek – SpinteQ domovská stránka">Martin Straňanek</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" style="opacity:0;transform:translateY(24px);animation:fadeUp .6s ease .05s forwards">
+    <div class="container">
+      <h1 class="heading-display">
+        Cenník
+        <span class="accent-line" aria-hidden="true"></span>
+      </h1>
+      <p class="subtitle">Transparentné ceny pre váš online úspech</p>
+    </div>
+  </section>
+
+  <!-- TOGGLE -->
+  <div class="toggle-wrapper" style="opacity:0;transform:translateY(24px);animation:fadeUp .6s ease .15s forwards">
+    <div class="toggle" role="tablist" aria-label="Prepínač kategórií">
+      <span class="toggle-slider" aria-hidden="true"></span>
+      <button class="toggle-btn active" role="tab" aria-selected="true" aria-controls="section-tvorba" data-target="tvorba">Tvorba</button>
+      <button class="toggle-btn" role="tab" aria-selected="false" aria-controls="section-sprava" data-target="sprava">Správa</button>
+    </div>
+  </div>
+
+  <!-- PRICING: TVORBA -->
+  <section id="section-tvorba" class="pricing-section active" role="tabpanel">
+    <div class="container">
+      <div class="cards-grid cols-3">
+
+        <!-- Starter -->
+        <article class="card">
+          <h2 class="card-title">Starter</h2>
+          <div class="card-price">€400</div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Prezentačný web</li>
+            <li>Do 5 podstránok</li>
+            <li>Kontaktný formulár</li>
+            <li>Galéria obrázkov</li>
+            <li>Google Maps integrácia</li>
+            <li>SEO základ</li>
+          </ul>
+          <a href="mailto:info@spinteq.sk?subject=Záujem o Starter balík" class="btn-cta">Mám záujem</a>
+        </article>
+
+        <!-- Klub / Združenie (Featured) -->
+        <article class="card featured">
+          <span class="card-badge">Obľúbené</span>
+          <h2 class="card-title">Klub / Združenie</h2>
+          <div class="card-price">€650</div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Viacero podstránok</li>
+            <li>Blog / aktuality</li>
+            <li>Galéria + lightbox</li>
+            <li>Prihlasovací systém</li>
+            <li>API napojenie + databáza</li>
+            <li>Gmail notifikácie</li>
+            <li>Google Analytics + Search Console</li>
+          </ul>
+          <a href="mailto:info@spinteq.sk?subject=Záujem o Klub balík" class="btn-cta filled">Mám záujem</a>
+        </article>
+
+        <!-- Firemný web -->
+        <article class="card">
+          <h2 class="card-title">Firemný web</h2>
+          <div class="card-price">€900</div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Vlastný grafický dizajn</li>
+            <li>Pokročilé SEO</li>
+            <li>Analytika a reporty</li>
+            <li>Konverzné prvky (CTA, formuláre)</li>
+            <li>Optimalizácia rýchlosti (Core Web Vitals)</li>
+          </ul>
+          <a href="mailto:info@spinteq.sk?subject=Záujem o Firemný web" class="btn-cta">Mám záujem</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING: SPRÁVA -->
+  <section id="section-sprava" class="pricing-section" role="tabpanel">
+    <div class="container">
+      <div class="cards-grid cols-2">
+
+        <!-- Basic -->
+        <article class="card">
+          <h2 class="card-title">Basic</h2>
+          <div class="card-price">€40 <span class="period">/mes</span></div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Aktualizácie systému</li>
+            <li>Pravidelná záloha</li>
+            <li>Hosting a doména</li>
+            <li>Monitoring dostupnosti</li>
+          </ul>
+          <a href="mailto:info@spinteq.sk?subject=Záujem o Basic správu" class="btn-cta">Mám záujem</a>
+        </article>
+
+        <!-- Štandard (Featured) -->
+        <article class="card featured">
+          <span class="card-badge">Odporúčané</span>
+          <h2 class="card-title">Štandard</h2>
+          <div class="card-price">€60 <span class="period">/mes</span></div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Všetko z Basic</li>
+            <li>Malé zmeny obsahu</li>
+            <li>Pridávanie aktualít</li>
+            <li>E-mail podpora</li>
+          </ul>
+          <a href="mailto:info@spinteq.sk?subject=Záujem o Štandard správu" class="btn-cta filled">Mám záujem</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EXTRAS -->
+  <section class="extras">
+    <div class="container">
+      <h2 class="extras-title">Doplnkové služby</h2>
+      <div class="extras-grid">
+        <div class="extra-item">
+          <div class="extra-item-name">Nová podstránka</div>
+          <div class="extra-item-price">od €80</div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-item-name">Grafické práce</div>
+          <div class="extra-item-price">od €30/hod</div>
+        </div>
+        <div class="extra-item">
+          <div class="extra-item-name">E-shop</div>
+          <div class="extra-item-price">individuálna ponuka</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-notes">
+        <p>Záloha 50 % pri podpise zmluvy, zvyšok pri odovzdaní projektu.</p>
+        <p>Ceny sú uvedené bez DPH.</p>
+        <p>Všetky weby obsahujú SSL certifikát, hosting na prvý rok a odovzdanie zdrojových súborov.</p>
+      </div>
+      <div class="footer-brand">
+        © 2025 <a href="https://spinteq.sk">SpinteQ</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JS: Toggle logic -->
+  <script>
+    (function () {
+      const buttons = document.querySelectorAll('.toggle-btn');
+      const slider = document.querySelector('.toggle-slider');
+      const sections = document.querySelectorAll('.pricing-section');
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var target = btn.getAttribute('data-target');
+
+          // Update active button
+          buttons.forEach(function (b) {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+          });
+          btn.classList.add('active');
+          btn.setAttribute('aria-selected', 'true');
+
+          // Move slider
+          if (target === 'sprava') {
+            slider.classList.add('right');
+          } else {
+            slider.classList.remove('right');
+          }
+
+          // Switch sections
+          sections.forEach(function (sec) {
+            sec.classList.remove('active');
+          });
+
+          var activeSection = document.getElementById('section-' + target);
+          if (activeSection) {
+            activeSection.classList.add('active');
+            // Re-trigger card animations
+            var cards = activeSection.querySelectorAll('.card');
+            cards.forEach(function (card) {
+              card.style.animation = 'none';
+              card.offsetHeight; // force reflow
+              card.style.animation = '';
+            });
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
