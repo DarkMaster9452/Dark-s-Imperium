@@ -1,6 +1,5 @@
-# SpinteQ – Cenník / Pricing Page
+# Martin Straňanek – Cenník / Pricing Page
 
-> Statická stránka s cenníkom služieb [SpinteQ](https://spinteq.sk) — tvorba a správa webov pre slovenský trh.
 
 **Live:** [darkmaster9452.github.io/Dark-s-Imperium](https://darkmaster9452.github.io/Dark-s-Imperium/)
 
