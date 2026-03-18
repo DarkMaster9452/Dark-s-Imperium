@@ -48,8 +48,7 @@ cd Dark-s-Imperium
 
 ## Kontakt
 
-Záujem o služby: [info@spinteq.sk](mailto:info@spinteq.sk)  
-Web: [spinteq.sk](https://spinteq.sk)
+Záujem o služby: [info@spinteq.sk](mailto:strananekm@gmail.com)  
 
 ---
 
