@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;0,700;1,600&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     /* ===================== DESIGN TOKENS ===================== */
     :root {
@@ -636,6 +637,87 @@
       font-weight: 500;
     }
 
+    /* ===================== CONTACT ===================== */
+    .contact {
+      padding: 64px 0 56px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: fadeUp 0.6s ease 0.65s forwards;
+    }
+
+    .contact-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: var(--text-primary);
+    }
+
+    .contact-sub {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+    }
+
+    .contact-email {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      max-width: 360px;
+      margin: 0 auto 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius);
+      padding: 18px 28px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .contact-email:hover {
+      border-color: var(--border-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    .contact-email i {
+      color: var(--accent-gold);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .socials {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .social-link {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+    }
+
+    .social-link:hover {
+      border-color: var(--border-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
     /* ===================== FOOTER ===================== */
     .site-footer {
       padding: 48px 0 40px;
@@ -810,7 +892,7 @@
             <li>Google Maps integrácia</li>
             <li>SEO základ</li>
           </ul>
-          <a href="mailto:strananekm@gmail.com?subject=Záujem o Starter balík" class="btn-cta">Mám záujem</a>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Starter%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
         </article>
 
         <!-- Klub / Združenie (Featured) -->
@@ -828,7 +910,7 @@
             <li>Gmail notifikácie</li>
             <li>Google Analytics + Search Console</li>
           </ul>
-          <a href="mailto:strananekm@gmail.com?subject=Záujem o Klub balík" class="btn-cta filled">Mám záujem</a>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Klub%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
         </article>
 
         <!-- Firemný web -->
@@ -843,7 +925,7 @@
             <li>Konverzné prvky (CTA, formuláre)</li>
             <li>Optimalizácia rýchlosti (Core Web Vitals)</li>
           </ul>
-          <a href="mailto:strananekm@gmail.com?subject=Záujem o Firemný web" class="btn-cta">Mám záujem</a>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Firemnp%C3%BD%20web" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
         </article>
 
       </div>
@@ -866,7 +948,7 @@
             <li>Hosting a doména</li>
             <li>Monitoring dostupnosti</li>
           </ul>
-          <a href="mailto:strananekm@gmail.com?subject=Záujem o Basic správu" class="btn-cta">Mám záujem</a>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Basic%20spr%C3%A1vu" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
         </article>
 
         <!-- Štandard (Featured) -->
@@ -881,7 +963,7 @@
             <li>Pridávanie aktualít</li>
             <li>E-mail podpora</li>
           </ul>
-          <a href="mailto:strananekm@gmail.com?subject=Záujem o Štandard správu" class="btn-cta filled">Mám záujem</a>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20%C5%A0tandard%20spr%C3%A1vu" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
         </article>
 
       </div>
@@ -1010,6 +1092,30 @@
       </div>
     </div>
   </div>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="container">
+      <h2 class="contact-title">Kontakt</h2>
+      <p class="contact-sub">Zaujíma vás spolupráca? Napíšte mi.</p>
+      <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com" target="_blank" rel="noopener" class="contact-email">
+        <i class="fas fa-envelope"></i>
+        strananekm@gmail.com
+      </a>
+      <div class="socials">
+        <!-- Replace # with your actual profile URLs -->
+        <a href="#" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="#" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer class="site-footer">
