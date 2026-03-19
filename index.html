@@ -1168,6 +1168,34 @@
       cursor: not-allowed;
     }
 
+    /* Cart total */
+    .cart-total {
+      margin: 14px 0 0;
+      padding: 14px 0 0;
+      border-top: 1px solid var(--border-gold);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cart-total-label {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .cart-total-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+      text-align: right;
+      line-height: 1.2;
+    }
+
     /* Extra item add button */
     .extra-item {
       position: relative;
@@ -1199,7 +1227,11 @@
     .extra-item-add.added {
       background: var(--accent-gold);
       color: var(--bg-primary);
-      pointer-events: none;
+    }
+
+    .extra-item-add.added:hover {
+      background: #ef4444;
+      border-color: #ef4444;
     }
 
     /* Card add-to-cart button style */
@@ -1232,6 +1264,12 @@
       color: var(--accent-gold);
       border-color: var(--border-gold);
       background: var(--accent-gold-glow);
+    }
+
+    .btn-add-cart.added:hover {
+      color: #ef4444;
+      border-color: rgba(239,68,68,.4);
+      background: rgba(239,68,68,.08);
     }
   </style>
 </head>
@@ -1562,6 +1600,10 @@
     <div class="cart-body" id="cart-body">
       <p class="cart-empty" id="cart-empty">Košík je prázdny. Pridajte služby z cenníka.</p>
       <div id="cart-items"></div>
+      <div class="cart-total" id="cart-total" hidden>
+        <span class="cart-total-label">Celkom</span>
+        <span class="cart-total-value" id="cart-total-value"></span>
+      </div>
     </div>
     <div class="cart-form" id="cart-form">
       <h3 class="cart-form-title">Kontaktné údaje</h3>
@@ -1734,6 +1776,8 @@
       var countEl = document.getElementById('cart-count');
       var itemsEl = document.getElementById('cart-items');
       var emptyEl = document.getElementById('cart-empty');
+      var totalEl = document.getElementById('cart-total');
+      var totalValueEl = document.getElementById('cart-total-value');
       var submitBtn = document.getElementById('cart-submit');
 
       function openCart() {
@@ -1748,12 +1792,47 @@
         document.body.style.overflow = '';
       }
 
+      // Parse a price string into components for summing
+      // Returns { value: number|null, isMin: bool, isRecurring: bool, isCustom: bool }
+      function parsePrice(str) {
+        if (!str || str.indexOf('individuálna') !== -1) return { value: null, isMin: false, isRecurring: false, isCustom: true };
+        var match = str.match(/\d+/);
+        return {
+          value: match ? parseInt(match[0]) : null,
+          isMin: str.indexOf('od') !== -1,
+          isRecurring: str.indexOf('/mes') !== -1,
+          isCustom: false
+        };
+      }
+
+      function computeTotal() {
+        var oneTime = 0, monthly = 0, hasMin = false, hasCustom = false;
+        cart.forEach(function (item) {
+          var p = parsePrice(item.price);
+          if (p.isCustom || p.value === null) { hasCustom = true; return; }
+          if (p.isMin) hasMin = true;
+          if (p.isRecurring) monthly += p.value;
+          else oneTime += p.value;
+        });
+        return { oneTime: oneTime, monthly: monthly, hasMin: hasMin, hasCustom: hasCustom };
+      }
+
+      function formatTotal(t) {
+        var parts = [];
+        var prefix = t.hasMin ? 'od ' : '';
+        if (t.oneTime > 0) parts.push(prefix + '€' + t.oneTime);
+        if (t.monthly > 0) parts.push((t.oneTime > 0 ? '' : prefix) + '€' + t.monthly + '/mes');
+        if (t.hasCustom) parts.push('+ individuálna ponuka');
+        return parts.length ? parts.join('\n') : '—';
+      }
+
       function renderCart() {
         countEl.textContent = cart.length;
         itemsEl.innerHTML = '';
 
         if (cart.length === 0) {
           emptyEl.style.display = 'block';
+          totalEl.hidden = true;
           submitBtn.disabled = true;
         } else {
           emptyEl.style.display = 'none';
@@ -1769,9 +1848,14 @@
               '<button class="cart-item-remove" data-idx="' + i + '" aria-label="Odstrániť">✕</button>';
             itemsEl.appendChild(div);
           });
+
+          // Update total
+          var t = computeTotal();
+          totalValueEl.innerHTML = formatTotal(t).replace('\n', '<br>');
+          totalEl.hidden = false;
         }
 
-        // Sync "added" state on all add-to-cart buttons
+        // Sync button state on all add-to-cart buttons
         document.querySelectorAll('[data-add-to-cart]').forEach(function (btn) {
           var id = btn.getAttribute('data-id');
           var inCart = cart.some(function (c) { return c.id === id; });
@@ -1791,7 +1875,6 @@
       function getPrice(btn) {
         var priceRef = btn.getAttribute('data-price-ref');
         if (priceRef) {
-          // Správa cards: read current displayed price from the price element
           var priceEl = document.getElementById(priceRef);
           if (priceEl) {
             var billing = document.querySelector('.billing-btn.active');
@@ -1804,23 +1887,30 @@
         return btn.getAttribute('data-price');
       }
 
-      function addToCart(btn) {
-        var id = btn.getAttribute('data-id');
-        if (cart.some(function (c) { return c.id === id; })) return;
-        cart.push({ id: id, name: btn.getAttribute('data-name'), price: getPrice(btn) });
+      function removeFromCart(id) {
+        cart = cart.filter(function (c) { return c.id !== id; });
         renderCart();
-        // Flash FAB
-        fab.style.transform = 'scale(1.2)';
-        setTimeout(function () { fab.style.transform = ''; }, 200);
       }
 
-      // Delegate add-to-cart clicks (works for dynamically styled buttons)
+      function toggleCart(btn) {
+        var id = btn.getAttribute('data-id');
+        if (cart.some(function (c) { return c.id === id; })) {
+          removeFromCart(id);
+        } else {
+          cart.push({ id: id, name: btn.getAttribute('data-name'), price: getPrice(btn) });
+          renderCart();
+          fab.style.transform = 'scale(1.2)';
+          setTimeout(function () { fab.style.transform = ''; }, 200);
+        }
+      }
+
+      // Delegate add/remove toggle on all add-to-cart buttons
       document.addEventListener('click', function (e) {
         var btn = e.target.closest('[data-add-to-cart]');
-        if (btn && !btn.classList.contains('added')) addToCart(btn);
+        if (btn) toggleCart(btn);
       });
 
-      // Remove from cart
+      // Remove via ✕ button inside drawer
       itemsEl.addEventListener('click', function (e) {
         var btn = e.target.closest('.cart-item-remove');
         if (!btn) return;
@@ -1833,7 +1923,6 @@
       closeBtn.addEventListener('click', closeCart);
       overlay.addEventListener('click', closeCart);
 
-      // Keyboard close
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && drawer.classList.contains('open')) closeCart();
       });
@@ -1845,7 +1934,6 @@
         var phone = document.getElementById('cart-phone').value.trim();
         var social = document.getElementById('cart-social').value.trim();
 
-        // Validate required
         var nameField = document.getElementById('cart-name');
         var emailField = document.getElementById('cart-email');
         nameField.classList.toggle('error', !name);
@@ -1853,7 +1941,10 @@
         if (!name || !email) return;
 
         var itemsText = cart.map(function (i) { return '  \u2022 ' + i.name + ' (' + i.price + ')'; }).join('\n');
+        var t = computeTotal();
+        var totalText = formatTotal(t);
         var body = 'Záujem o nasledujúce služby:\n\n' + itemsText +
+          '\n\nCelková cena: ' + totalText +
           '\n\n---\nKontaktné údaje:\nMeno: ' + name +
           '\nE-mail: ' + email +
           (phone ? '\nTelefón: ' + phone : '') +
@@ -1867,7 +1958,6 @@
         window.open(url, '_blank');
       });
 
-      // Clear error state on input
       ['cart-name', 'cart-email'].forEach(function (id) {
         document.getElementById(id).addEventListener('input', function () {
           this.classList.remove('error');
