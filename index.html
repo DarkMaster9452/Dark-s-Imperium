@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,600;0,700;1,600&family=Work+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     /* ===================== DESIGN TOKENS ===================== */
     :root {
@@ -846,6 +847,7 @@
   </style>
 </head>
 <body>
+<div id="dotted-surface" style="pointer-events:none;position:fixed;inset:0;z-index:0;"></div>
 
   <!-- HEADER -->
   <header class="site-header">
@@ -1188,6 +1190,70 @@
           if (!isOpen) item.classList.add('open');
         });
       });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var container = document.getElementById('dotted-surface');
+      if (!container || typeof THREE === 'undefined') return;
+
+      var SEPARATION = 150, AMOUNTX = 40, AMOUNTY = 60;
+
+      var scene = new THREE.Scene();
+      var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
+      camera.position.set(0, 355, 1220);
+
+      var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      container.appendChild(renderer.domElement);
+
+      var positions = [], colors = [];
+      for (var ix = 0; ix < AMOUNTX; ix++) {
+        for (var iy = 0; iy < AMOUNTY; iy++) {
+          positions.push(ix * SEPARATION - (AMOUNTX * SEPARATION) / 2, 0, iy * SEPARATION - (AMOUNTY * SEPARATION) / 2);
+          colors.push(200 / 255, 200 / 255, 200 / 255);
+        }
+      }
+
+      var geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+      var material = new THREE.PointsMaterial({ size: 8, vertexColors: true, transparent: true, opacity: 0.25, sizeAttenuation: true });
+      var points = new THREE.Points(geometry, material);
+      scene.add(points);
+
+      var count = 0, rafId;
+      function animate() {
+        rafId = requestAnimationFrame(animate);
+        var pos = geometry.attributes.position.array;
+        var i = 0;
+        for (var ix = 0; ix < AMOUNTX; ix++) {
+          for (var iy = 0; iy < AMOUNTY; iy++) {
+            pos[i * 3 + 1] = Math.sin((ix + count) * 0.3) * 50 + Math.sin((iy + count) * 0.5) * 50;
+            i++;
+          }
+        }
+        geometry.attributes.position.needsUpdate = true;
+        renderer.render(scene, camera);
+        count += 0.1;
+      }
+
+      window.addEventListener('resize', function () {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) { cancelAnimationFrame(rafId); rafId = null; }
+        else animate();
+      });
+
+      animate();
     })();
   </script>
 </body>
