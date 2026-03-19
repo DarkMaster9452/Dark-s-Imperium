@@ -299,6 +299,96 @@
       white-space: nowrap;
     }
 
+    /* Billing toggle */
+    .billing-toggle-wrapper {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .billing-toggle {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .billing-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 6px 18px;
+      border-radius: 999px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .billing-btn.active {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      font-weight: 600;
+    }
+
+    .billing-save-tag {
+      background: rgba(249,115,22,.15);
+      color: var(--accent);
+      font-size: 0.7rem;
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .billing-btn.active .billing-save-tag {
+      background: rgba(0,0,0,.15);
+      color: var(--bg-primary);
+    }
+
+    .billing-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: .75rem;
+    }
+
+    .billing-note strong {
+      color: var(--accent-gold);
+    }
+
+    /* Bonus badges */
+    .card-bonus-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .card-bonus-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: rgba(249,115,22,.08);
+      border: 1px solid rgba(249,115,22,.2);
+      border-radius: 999px;
+      padding: 3px 10px;
+      letter-spacing: .3px;
+    }
+
+    .card-bonus-item::before {
+      content: '★';
+      font-size: 0.65rem;
+    }
+
     .card-title {
       font-family: var(--font-display);
       font-weight: 600;
@@ -937,12 +1027,19 @@
   <!-- PRICING: SPRÁVA -->
   <section id="section-sprava" class="pricing-section" role="tabpanel">
     <div class="container">
+      <div class="billing-toggle-wrapper">
+        <div class="billing-toggle" role="tablist" aria-label="Fakturácia">
+          <button class="billing-btn active" data-billing="monthly">Mesačne</button>
+          <button class="billing-btn" data-billing="annual">Ročne <span class="billing-save-tag">−10%</span></button>
+        </div>
+        <p class="billing-note" id="billing-note-sprava" hidden>Platíte ročne — ušetríte <strong id="billing-savings">až €72 ročne</strong></p>
+      </div>
       <div class="cards-grid cols-2">
 
         <!-- Basic -->
         <article class="card">
           <h2 class="card-title">Basic</h2>
-          <div class="card-price">€40 <span class="period">/mes</span></div>
+          <div class="card-price" data-monthly="40" data-annual="36">€40 <span class="period">/mes</span></div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Aktualizácie systému</li>
@@ -950,6 +1047,9 @@
             <li>Hosting a doména</li>
             <li>Monitoring dostupnosti</li>
           </ul>
+          <div class="card-bonus-list">
+            <span class="card-bonus-item">Bezplatný SEO audit</span>
+          </div>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Basic%20spr%C3%A1vu" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
         </article>
 
@@ -957,7 +1057,7 @@
         <article class="card featured">
           <span class="card-badge">Odporúčané</span>
           <h2 class="card-title">Štandard</h2>
-          <div class="card-price">€60 <span class="period">/mes</span></div>
+          <div class="card-price" data-monthly="60" data-annual="54">€60 <span class="period">/mes</span></div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Všetko z Basic</li>
@@ -965,6 +1065,10 @@
             <li>Pridávanie aktualít</li>
             <li>E-mail podpora</li>
           </ul>
+          <div class="card-bonus-list">
+            <span class="card-bonus-item">Bezplatný SEO audit</span>
+            <span class="card-bonus-item">Bezplatná nová podstránka</span>
+          </div>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20%C5%A0tandard%20spr%C3%A1vu" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
         </article>
 
@@ -1175,6 +1279,26 @@
               card.style.animation = '';
             });
           }
+        });
+      });
+    })();
+
+    // Billing toggle (Správa section)
+    (function () {
+      var billingBtns = document.querySelectorAll('.billing-btn');
+      billingBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          billingBtns.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          var billing = btn.getAttribute('data-billing');
+          document.querySelectorAll('#section-sprava .card-price[data-monthly]').forEach(function (el) {
+            var price = el.getAttribute('data-' + billing);
+            var period = el.querySelector('.period');
+            el.textContent = '€' + price + '\u00a0';
+            el.appendChild(period);
+          });
+          var note = document.getElementById('billing-note-sprava');
+          note.hidden = billing !== 'annual';
         });
       });
     })();
