@@ -19,6 +19,7 @@
       --accent-gold: #f97316;
       --accent-gold-dim: #ea6e0a;
       --accent-gold-glow: rgba(249, 115, 22, 0.15);
+      --accent-gold-glow-strong: rgba(249, 115, 22, 0.25);
       --text-primary: #f0ede6;
       --text-secondary: #8a8a8e;
       --text-muted: #5a5a5e;
@@ -142,20 +143,52 @@
     .hero {
       text-align: center;
       padding: 60px 0 40px;
+      position: relative;
     }
 
     .hero h1 {
       font-size: clamp(2.4rem, 5vw, 3.5rem);
       margin-bottom: 16px;
+      position: relative;
+      display: inline-block;
     }
 
+    /* [1] Hero: animated gradient glow behind heading */
+    .hero-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 320px;
+      height: 120px;
+      background: radial-gradient(ellipse, rgba(249, 115, 22, 0.18) 0%, rgba(249, 115, 22, 0.05) 50%, transparent 70%);
+      border-radius: 50%;
+      filter: blur(40px);
+      animation: heroGlowPulse 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    @keyframes heroGlowPulse {
+      0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+    }
+
+    /* [1] Hero: gold shimmer underline replacing plain accent-line */
     .hero h1 .accent-line {
       display: block;
-      width: 48px;
+      width: 64px;
       height: 2px;
-      background: var(--accent-gold);
       margin: 18px auto 0;
       border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      background-size: 200% 100%;
+      animation: shimmerLine 2.5s ease-in-out infinite;
+    }
+
+    @keyframes shimmerLine {
+      0% { background-position: 200% center; }
+      100% { background-position: -200% center; }
     }
 
     .hero .subtitle {
@@ -261,25 +294,52 @@
       animation: fadeUp 0.6s ease forwards;
     }
 
+    /* [2] Non-featured card premium hover lift */
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
       border-color: var(--border-gold);
-      box-shadow: 0 8px 40px rgba(200, 169, 110, 0.06);
+      box-shadow: 0 12px 48px rgba(249, 115, 22, 0.08);
     }
 
     .card:nth-child(1) { animation-delay: 0.1s; }
     .card:nth-child(2) { animation-delay: 0.22s; }
     .card:nth-child(3) { animation-delay: 0.34s; }
 
-    /* Featured card */
+    /* [2] Featured card: glowing border pulse + ambient glow */
     .card.featured {
       background: var(--bg-card-featured);
       border-color: var(--border-gold);
-      box-shadow: 0 0 60px rgba(200, 169, 110, 0.07);
+      box-shadow:
+        0 0 60px rgba(249, 115, 22, 0.07),
+        0 0 0 1px rgba(249, 115, 22, 0.15);
+      animation: fadeUp 0.6s ease forwards, featuredBorderPulse 3s ease-in-out infinite 0.6s;
+    }
+
+    .card.featured::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: var(--radius);
+      background: radial-gradient(ellipse at 50% 0%, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card.featured > * {
+      position: relative;
+      z-index: 1;
     }
 
     .card.featured:hover {
-      box-shadow: 0 8px 60px rgba(200, 169, 110, 0.12);
+      transform: translateY(-6px);
+      box-shadow:
+        0 16px 64px rgba(249, 115, 22, 0.14),
+        0 0 0 1px rgba(249, 115, 22, 0.25);
+    }
+
+    @keyframes featuredBorderPulse {
+      0%, 100% { box-shadow: 0 0 60px rgba(249, 115, 22, 0.07), 0 0 0 1px rgba(249, 115, 22, 0.15); }
+      50% { box-shadow: 0 0 80px rgba(249, 115, 22, 0.12), 0 0 0 1px rgba(249, 115, 22, 0.35); }
     }
 
     .card-badge {
@@ -385,7 +445,7 @@
     }
 
     .card-bonus-item::before {
-      content: '★';
+      content: '\2605';
       font-size: 0.65rem;
     }
 
@@ -482,13 +542,28 @@
       border-color: var(--accent-gold-dim);
     }
 
+    /* ===================== SECTION TITLE DECORATION ===================== */
+    /* [3] Decorative gold lines flanking section titles */
+    .section-title-decorated {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .section-title-decorated::before,
+    .section-title-decorated::after {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      flex-shrink: 0;
+    }
+
     /* ===================== EXTRAS ===================== */
     .extras {
       padding: 64px 0 48px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease 0.45s forwards;
     }
 
     .extras-title {
@@ -507,16 +582,19 @@
       margin: 0 auto;
     }
 
+    /* [4] Extra items: premium hover with scale + border glow */
     .extra-item {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-sm);
       padding: 24px 20px;
-      transition: border-color var(--transition);
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
     }
 
     .extra-item:hover {
       border-color: var(--border-gold);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 32px rgba(249, 115, 22, 0.08);
     }
 
     .extra-item-name {
@@ -538,9 +616,6 @@
     .process {
       padding: 72px 0 48px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease 0.5s forwards;
     }
 
     .process-title {
@@ -557,6 +632,7 @@
       gap: 24px;
       max-width: 960px;
       margin: 0 auto;
+      position: relative;
     }
 
     .process-step {
@@ -573,11 +649,12 @@
       border-color: var(--border-gold);
     }
 
+    /* [5] Process step number: gold ring glow */
     .process-step-number {
       width: 54px;
       height: 54px;
       border-radius: 50%;
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--accent-gold);
       background: var(--accent-gold-glow);
       display: flex;
       align-items: center;
@@ -588,6 +665,13 @@
       font-size: 1.4rem;
       color: var(--accent-gold);
       line-height: 1;
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05);
+      animation: numberGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes numberGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(249, 115, 22, 0.15), 0 0 40px rgba(249, 115, 22, 0.05); }
+      50% { box-shadow: 0 0 25px rgba(249, 115, 22, 0.25), 0 0 50px rgba(249, 115, 22, 0.1); }
     }
 
     .process-step-label {
@@ -604,23 +688,30 @@
       line-height: 1.5;
     }
 
+    /* [5] SVG arrow connector between process steps */
     .process-step:not(:last-child)::after {
-      content: '→';
+      content: '';
       position: absolute;
       top: 50%;
       right: -16px;
       transform: translate(50%, -50%);
-      color: var(--text-muted);
-      font-size: 1rem;
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M4 10h12M12 6l4 4-4 4' stroke='%23f97316' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.5'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
       z-index: 2;
+      animation: arrowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes arrowPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
     }
 
     /* ===================== FAQ ===================== */
     .faq {
       padding: 64px 0 48px;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease 0.55s forwards;
     }
 
     .faq-title {
@@ -660,29 +751,39 @@
       color: var(--accent-gold);
     }
 
+    /* [6] FAQ chevron icon that rotates on open */
     .faq-question::after {
-      content: '+';
+      content: '';
       position: absolute;
-      right: 0;
+      right: 4px;
       top: 50%;
-      transform: translateY(-50%);
-      font-size: 1.3rem;
-      color: var(--accent-gold);
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--accent-gold);
+      border-bottom: 2px solid var(--accent-gold);
+      transform: translateY(-70%) rotate(45deg);
       transition: transform var(--transition);
     }
 
     .faq-item.open .faq-question::after {
-      content: '−';
+      transform: translateY(-30%) rotate(-135deg);
     }
 
+    /* [6] FAQ answer: smooth height + fade-in */
     .faq-answer {
-      max-height: 0;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .faq-answer > * {
       overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
     }
 
     .faq-item.open .faq-answer {
-      max-height: 200px;
+      grid-template-rows: 1fr;
+      opacity: 1;
     }
 
     .faq-answer p {
@@ -696,24 +797,49 @@
     .trust-banner {
       text-align: center;
       padding: 36px 0;
-      opacity: 0;
-      transform: translateY(16px);
-      animation: fadeUp 0.6s ease 0.6s forwards;
     }
 
+    /* [7] Trust banner: gold gradient border + shimmer on star */
     .trust-banner-inner {
       display: inline-flex;
       align-items: center;
       gap: 12px;
       background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid transparent;
       border-radius: 100px;
       padding: 14px 32px;
+      background-clip: padding-box;
+      position: relative;
+    }
+
+    .trust-banner-inner::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 100px;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.4), rgba(249, 115, 22, 0.1), rgba(249, 115, 22, 0.3));
+      z-index: -1;
+    }
+
+    .trust-banner-inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 100px;
+      background: var(--bg-card);
+      z-index: -1;
     }
 
     .trust-banner-icon {
       font-size: 1.3rem;
       line-height: 1;
+      color: var(--accent-gold);
+      animation: starShimmer 2s ease-in-out infinite;
+    }
+
+    @keyframes starShimmer {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.15); text-shadow: 0 0 12px rgba(249, 115, 22, 0.6); }
     }
 
     .trust-banner-text {
@@ -732,9 +858,6 @@
     .contact {
       padding: 64px 0 56px;
       text-align: center;
-      opacity: 0;
-      transform: translateY(24px);
-      animation: fadeUp 0.6s ease 0.65s forwards;
     }
 
     .contact-title {
@@ -751,6 +874,7 @@
       margin-bottom: 36px;
     }
 
+    /* [8] Contact email: glow on hover */
     .contact-email {
       display: flex;
       align-items: center;
@@ -767,13 +891,14 @@
       font-family: var(--font-body);
       font-size: 0.95rem;
       font-weight: 500;
-      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+      transition: border-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
     }
 
     .contact-email:hover {
       border-color: var(--border-gold);
       color: var(--accent-gold);
       transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(249, 115, 22, 0.1);
     }
 
     .contact-email i {
@@ -788,6 +913,7 @@
       gap: 12px;
     }
 
+    /* [8] Social links: individual brand-color hover */
     .social-link {
       width: 46px;
       height: 46px;
@@ -800,13 +926,32 @@
       text-decoration: none;
       color: var(--text-secondary);
       font-size: 1.1rem;
-      transition: border-color var(--transition), color var(--transition), transform var(--transition);
+      transition: border-color var(--transition), color var(--transition), transform var(--transition), background var(--transition), box-shadow var(--transition);
     }
 
     .social-link:hover {
-      border-color: var(--border-gold);
-      color: var(--accent-gold);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+    }
+
+    .social-link[aria-label="Instagram"]:hover {
+      color: #fff;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      border-color: transparent;
+      box-shadow: 0 4px 20px rgba(225, 48, 108, 0.3);
+    }
+
+    .social-link[aria-label="GitHub"]:hover {
+      color: #fff;
+      background: #333;
+      border-color: #555;
+      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .social-link[aria-label="Facebook"]:hover {
+      color: #fff;
+      background: #1877f2;
+      border-color: transparent;
+      box-shadow: 0 4px 20px rgba(24, 119, 242, 0.3);
     }
 
     /* ===================== FOOTER ===================== */
@@ -865,6 +1010,18 @@
     .pricing-section.active .card:nth-child(1) { animation-delay: 0.05s; }
     .pricing-section.active .card:nth-child(2) { animation-delay: 0.15s; }
     .pricing-section.active .card:nth-child(3) { animation-delay: 0.25s; }
+
+    /* [11] Scroll-reveal: sections start hidden, revealed by IntersectionObserver */
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* ===================== RESPONSIVE ===================== */
     @media (max-width: 900px) {
@@ -933,9 +1090,20 @@
       .trust-banner-inner {
         padding: 12px 20px;
       }
+
+      .section-title-decorated::before,
+      .section-title-decorated::after {
+        width: 24px;
+      }
+
+      .hero-glow {
+        width: 200px;
+        height: 80px;
+      }
     }
 
     /* ===================== CART ===================== */
+    /* [9] Cart FAB: pulse ring animation */
     .cart-fab {
       position: fixed;
       bottom: 32px;
@@ -956,11 +1124,32 @@
       justify-content: center;
     }
 
+    .cart-fab::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(249, 115, 22, 0.4);
+      animation: fabPulseRing 2.5s ease-in-out infinite;
+    }
+
+    @keyframes fabPulseRing {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 0; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+
     .cart-fab:hover {
       transform: scale(1.08);
       box-shadow: 0 6px 36px rgba(249,115,22,.55);
     }
 
+    .cart-fab:hover::before {
+      animation: none;
+      opacity: 0;
+    }
+
+    /* [9] Cart badge count: animate on change */
     .cart-fab-count {
       position: absolute;
       top: -5px;
@@ -978,6 +1167,17 @@
       justify-content: center;
       border: 1.5px solid var(--accent-gold);
       line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .cart-fab-count.bump {
+      animation: badgeBump 0.35s ease;
+    }
+
+    @keyframes badgeBump {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.4); }
+      100% { transform: scale(1); }
     }
 
     .cart-overlay {
@@ -1062,6 +1262,7 @@
       padding: 40px 0;
     }
 
+    /* [10] Cart items: slide-in animation */
     .cart-item {
       display: flex;
       align-items: flex-start;
@@ -1069,6 +1270,18 @@
       gap: 12px;
       padding: 14px 0;
       border-bottom: 1px solid var(--border-subtle);
+      animation: cartItemSlideIn 0.3s ease forwards;
+    }
+
+    @keyframes cartItemSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .cart-item-info { flex: 1; }
@@ -1187,6 +1400,7 @@
       letter-spacing: 1px;
     }
 
+    /* [10] Cart total value: gold text glow */
     .cart-total-value {
       font-family: var(--font-display);
       font-size: 1.4rem;
@@ -1194,6 +1408,7 @@
       color: var(--accent-gold);
       text-align: right;
       line-height: 1.2;
+      text-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
     }
 
     /* Extra item add button */
@@ -1271,6 +1486,22 @@
       border-color: rgba(239,68,68,.4);
       background: rgba(239,68,68,.08);
     }
+
+    /* ===================== FOCUS STYLES ===================== */
+    .toggle-btn:focus-visible,
+    .btn-cta:focus-visible,
+    .btn-add-cart:focus-visible,
+    .extra-item-add:focus-visible,
+    .faq-question:focus-visible,
+    .social-link:focus-visible,
+    .contact-email:focus-visible,
+    .cart-fab:focus-visible,
+    .cart-close:focus-visible,
+    .cart-submit:focus-visible,
+    .billing-btn:focus-visible {
+      outline: 2px solid var(--accent-gold);
+      outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
@@ -1287,6 +1518,7 @@
   <section class="hero" style="opacity:0;transform:translateY(24px);animation:fadeUp .6s ease .05s forwards">
     <div class="container">
       <h1 class="heading-display">
+        <span class="hero-glow" aria-hidden="true"></span>
         Cenník
         <span class="accent-line" aria-hidden="true"></span>
       </h1>
@@ -1419,9 +1651,9 @@
   </section>
 
   <!-- EXTRAS -->
-  <section class="extras">
+  <section class="extras scroll-reveal">
     <div class="container">
-      <h2 class="extras-title">Doplnkové služby</h2>
+      <h2 class="extras-title section-title-decorated">Doplnkové služby</h2>
       <div class="extras-grid">
         <div class="extra-item">
           <div class="extra-item-name">Nová podstránka</div>
@@ -1473,9 +1705,9 @@
   </section>
 
   <!-- PROCESS STEPS -->
-  <section class="process">
+  <section class="process scroll-reveal">
     <div class="container">
-      <h2 class="process-title">Ako to funguje</h2>
+      <h2 class="process-title section-title-decorated">Ako to funguje</h2>
       <div class="process-grid">
         <div class="process-step">
           <div class="process-step-number">01</div>
@@ -1502,9 +1734,9 @@
   </section>
 
   <!-- FAQ -->
-  <section class="faq">
+  <section class="faq scroll-reveal">
     <div class="container">
-      <h2 class="faq-title">Časté otázky</h2>
+      <h2 class="faq-title section-title-decorated">Časté otázky</h2>
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-question">Ako dlho trvá vytvorenie webu?</button>
@@ -1541,7 +1773,7 @@
   </section>
 
   <!-- TRUST BANNER -->
-  <div class="trust-banner">
+  <div class="trust-banner scroll-reveal">
     <div class="container">
       <div class="trust-banner-inner">
         <span class="trust-banner-icon" aria-hidden="true">&#9733;</span>
@@ -1551,9 +1783,9 @@
   </div>
 
   <!-- CONTACT -->
-  <section class="contact">
+  <section class="contact scroll-reveal">
     <div class="container">
-      <h2 class="contact-title">Kontakt</h2>
+      <h2 class="contact-title section-title-decorated">Kontakt</h2>
       <p class="contact-sub">Zaujíma vás spolupráca? Napíšte mi.</p>
       <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com" target="_blank" rel="noopener" class="contact-email">
         <i class="fas fa-envelope"></i>
@@ -1595,7 +1827,7 @@
   <div id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Košík">
     <div class="cart-header">
       <span class="cart-title">Košík</span>
-      <button class="cart-close" id="cart-close" aria-label="Zavrieť košík">✕</button>
+      <button class="cart-close" id="cart-close" aria-label="Zavrieť košík">&#10005;</button>
     </div>
     <div class="cart-body" id="cart-body">
       <p class="cart-empty" id="cart-empty">Košík je prázdny. Pridajte služby z cenníka.</p>
@@ -1678,7 +1910,7 @@
           document.querySelectorAll('#section-sprava .card-price[data-monthly]').forEach(function (el) {
             var price = el.getAttribute('data-' + billing);
             var period = el.querySelector('.period');
-            el.textContent = '€' + price + '\u00a0';
+            el.textContent = '\u20AC' + price + '\u00a0';
             el.appendChild(period);
           });
           var note = document.getElementById('billing-note-sprava');
@@ -1698,6 +1930,35 @@
           if (!isOpen) item.classList.add('open');
         });
       });
+    })();
+
+    // [11] Scroll-reveal via IntersectionObserver
+    (function () {
+      var revealElements = document.querySelectorAll('.scroll-reveal');
+      if (!revealElements.length) return;
+
+      if ('IntersectionObserver' in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function (el) {
+          observer.observe(el);
+        });
+      } else {
+        // Fallback: reveal all immediately
+        revealElements.forEach(function (el) {
+          el.classList.add('revealed');
+        });
+      }
     })();
   </script>
 
@@ -1820,14 +2081,28 @@
       function formatTotal(t) {
         var parts = [];
         var prefix = t.hasMin ? 'od ' : '';
-        if (t.oneTime > 0) parts.push(prefix + '€' + t.oneTime);
-        if (t.monthly > 0) parts.push((t.oneTime > 0 ? '' : prefix) + '€' + t.monthly + '/mes');
+        if (t.oneTime > 0) parts.push(prefix + '\u20AC' + t.oneTime);
+        if (t.monthly > 0) parts.push((t.oneTime > 0 ? '' : prefix) + '\u20AC' + t.monthly + '/mes');
         if (t.hasCustom) parts.push('+ individuálna ponuka');
-        return parts.length ? parts.join('\n') : '—';
+        return parts.length ? parts.join('\n') : '\u2014';
+      }
+
+      // [9] Badge bump animation helper
+      function bumpBadge() {
+        countEl.classList.remove('bump');
+        void countEl.offsetWidth;
+        countEl.classList.add('bump');
       }
 
       function renderCart() {
+        var prevCount = parseInt(countEl.textContent) || 0;
         countEl.textContent = cart.length;
+
+        // Trigger badge bump if count changed
+        if (cart.length !== prevCount) {
+          bumpBadge();
+        }
+
         itemsEl.innerHTML = '';
 
         if (cart.length === 0) {
@@ -1845,7 +2120,7 @@
                 '<div class="cart-item-name">' + item.name + '</div>' +
                 '<div class="cart-item-price">' + item.price + '</div>' +
               '</div>' +
-              '<button class="cart-item-remove" data-idx="' + i + '" aria-label="Odstrániť">✕</button>';
+              '<button class="cart-item-remove" data-idx="' + i + '" aria-label="Odstrániť">\u2715</button>';
             itemsEl.appendChild(div);
           });
 
@@ -1881,7 +2156,7 @@
             var billingType = billing ? billing.getAttribute('data-billing') : 'monthly';
             var val = priceEl.getAttribute('data-' + billingType);
             var suffix = billingType === 'annual' ? '/mes (ročné)' : '/mes';
-            return '€' + val + '\u00a0' + suffix;
+            return '\u20AC' + val + '\u00a0' + suffix;
           }
         }
         return btn.getAttribute('data-price');
@@ -1910,7 +2185,7 @@
         if (btn) toggleCart(btn);
       });
 
-      // Remove via ✕ button inside drawer
+      // Remove via button inside drawer
       itemsEl.addEventListener('click', function (e) {
         var btn = e.target.closest('.cart-item-remove');
         if (!btn) return;
@@ -1927,7 +2202,7 @@
         if (e.key === 'Escape' && drawer.classList.contains('open')) closeCart();
       });
 
-      // Submit → open Gmail compose
+      // Submit -> open Gmail compose
       submitBtn.addEventListener('click', function () {
         var name = document.getElementById('cart-name').value.trim();
         var email = document.getElementById('cart-email').value.trim();
