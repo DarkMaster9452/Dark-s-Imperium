@@ -359,17 +359,16 @@
 
     .card-badge {
       position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
+      top: 14px;
+      right: 14px;
       background: var(--accent-gold);
       color: var(--bg-primary);
       font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 0.72rem;
-      letter-spacing: 1.5px;
+      font-weight: 600;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      padding: 4px 16px;
+      padding: 3px 10px;
       border-radius: 100px;
       white-space: nowrap;
     }
@@ -576,6 +575,46 @@
     }
 
     /* ===================== EXTRAS ===================== */
+    /* Na mieru banner */
+    .custom-banner {
+      margin: 48px 0 0;
+      padding: 40px 40px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      box-shadow: 0 0 40px rgba(249, 115, 22, 0.06);
+    }
+
+    .custom-banner-text h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+
+    .custom-banner-text p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      max-width: 500px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 640px) {
+      .custom-banner {
+        flex-direction: column;
+        text-align: center;
+        padding: 32px 24px;
+      }
+      .custom-banner-text p {
+        max-width: 100%;
+      }
+    }
+
     .extras {
       padding: 64px 0 48px;
       text-align: center;
@@ -1565,7 +1604,7 @@
   <!-- PRICING: TVORBA -->
   <section id="section-tvorba" class="pricing-section active" role="tabpanel">
     <div class="container">
-      <div class="cards-grid cols-4">
+      <div class="cards-grid cols-3">
 
         <!-- Starter -->
         <article class="card">
@@ -1573,12 +1612,12 @@
           <div class="card-price">€450</div>
           <div class="card-divider"></div>
           <ul class="card-features">
-            <li>Prezentačný web</li>
-            <li>Do 5 podstránok</li>
+            <li>Prezentačný web (do 5 strán)</li>
+            <li>Responzívny dizajn (mobil, tablet, PC)</li>
             <li>Kontaktný formulár</li>
-            <li>Galéria obrázkov</li>
-            <li>Google Maps integrácia</li>
-            <li>SEO základ</li>
+            <li>Galéria obrázkov + Google Maps</li>
+            <li>SEO základ + sitemap</li>
+            <li>Hosting + doména (1. rok zdarma)</li>
           </ul>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Starter%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
           <button class="btn-add-cart" data-add-to-cart data-id="starter" data-name="Starter" data-price="€450"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
@@ -1591,13 +1630,13 @@
           <div class="card-price">€800</div>
           <div class="card-divider"></div>
           <ul class="card-features">
-            <li>Viacero podstránok</li>
-            <li>Blog / aktuality</li>
-            <li>Galéria + lightbox</li>
-            <li>Prihlasovací systém</li>
-            <li>API napojenie + databáza</li>
-            <li>Gmail notifikácie</li>
+            <li>Neobmedzený počet podstránok</li>
+            <li>Blog / sekcia aktualít</li>
+            <li>Galéria s lightbox efektom</li>
+            <li>Pokročilé SEO nastavenie</li>
             <li>Google Analytics + Search Console</li>
+            <li>E-mailové notifikácie z formulárov</li>
+            <li>Hosting + doména (1. rok zdarma)</li>
           </ul>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20%C5%A0tandard%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
           <button class="btn-add-cart" data-add-to-cart data-id="standart" data-name="Štandard" data-price="€800"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
@@ -1610,33 +1649,28 @@
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Vlastný grafický dizajn</li>
-            <li>Pokročilé SEO</li>
-            <li>Analytika a reporty</li>
-            <li>Konverzné prvky (CTA, formuláre)</li>
+            <li>Neobmedzený počet stránok</li>
+            <li>Prihlasovací systém + databáza</li>
+            <li>Pokročilé SEO + analytické reporty</li>
+            <li>Konverzné prvky (CTA, bannery)</li>
             <li>Optimalizácia rýchlosti (Core Web Vitals)</li>
+            <li>Prioritná e-mailová podpora</li>
           </ul>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Firemnp%C3%BD%20web" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
           <button class="btn-add-cart" data-add-to-cart data-id="firemnyweb" data-name="Firemný web" data-price="€1 200"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
         </article>
 
-        <!-- Vlastný systém -->
-        <article class="card">
-          <h2 class="card-title">Vlastný systém</h2>
-          <div class="card-price">Na mieru</div>
-          <div class="card-divider"></div>
-          <ul class="card-features">
-            <li>Cena podľa náročnosti</li>
-            <li>Komplexná webová aplikácia</li>
-            <li>Vlastná logika a funkcie</li>
-            <li>Integrácie tretích strán</li>
-            <li>Administračné rozhranie</li>
-            <li>Individuálna konzultácia</li>
-          </ul>
-          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Vlastn%C3%BD%20syst%C3%A9m" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
-          <button class="btn-add-cart" data-add-to-cart data-id="vlastny" data-name="Vlastný systém" data-price="individuálna ponuka"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
-        </article>
-
       </div>
+
+      <!-- Na mieru banner -->
+      <div class="custom-banner scroll-reveal">
+        <div class="custom-banner-text">
+          <h3>Potrebuješ niečo na mieru?</h3>
+          <p>Webová aplikácia, vlastná logika, integrácie tretích strán alebo komplexný systém? Cena závisí od náročnosti projektu — napíš mi a dohodneme sa.</p>
+        </div>
+        <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Vlastn%C3%BD%20syst%C3%A9m%20na%20mieru" target="_blank" rel="noopener" class="btn-cta">Kontaktuj ma</a>
+      </div>
+
     </div>
   </section>
 
