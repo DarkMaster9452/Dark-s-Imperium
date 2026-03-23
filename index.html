@@ -324,6 +324,7 @@
     .card.featured {
       background: var(--bg-card-featured);
       border-color: var(--border-gold);
+      padding-top: 52px;
       box-shadow:
         0 0 60px rgba(249, 115, 22, 0.07),
         0 0 0 1px rgba(249, 115, 22, 0.15);
@@ -509,14 +510,14 @@
     }
 
     .card-features li::before {
-      content: '';
+      content: '✓';
       position: absolute;
       left: 0;
-      top: 13px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--accent-gold-dim);
+      top: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
     }
 
     /* ===================== CTA BUTTON ===================== */
