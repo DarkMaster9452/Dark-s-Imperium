@@ -283,6 +283,10 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
+    .cards-grid.cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
     .cards-grid.cols-2 {
       grid-template-columns: repeat(2, 1fr);
       max-width: 760px;
@@ -1035,6 +1039,12 @@
     }
 
     /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1100px) {
+      .cards-grid.cols-4 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
     @media (max-width: 900px) {
       .cards-grid.cols-3 {
         grid-template-columns: 1fr 1fr;
@@ -1045,6 +1055,12 @@
         max-width: 380px;
         margin: 0 auto;
         width: 100%;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .cards-grid.cols-4 {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -1549,12 +1565,12 @@
   <!-- PRICING: TVORBA -->
   <section id="section-tvorba" class="pricing-section active" role="tabpanel">
     <div class="container">
-      <div class="cards-grid cols-3">
+      <div class="cards-grid cols-4">
 
         <!-- Starter -->
         <article class="card">
           <h2 class="card-title">Starter</h2>
-          <div class="card-price">€400</div>
+          <div class="card-price">€450</div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Prezentačný web</li>
@@ -1565,14 +1581,14 @@
             <li>SEO základ</li>
           </ul>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Starter%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
-          <button class="btn-add-cart" data-add-to-cart data-id="starter" data-name="Starter" data-price="€400"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
+          <button class="btn-add-cart" data-add-to-cart data-id="starter" data-name="Starter" data-price="€450"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
         </article>
 
-        <!-- Klub / Združenie (Featured) -->
+        <!-- Štandard (Featured) -->
         <article class="card featured">
           <span class="card-badge">Obľúbené</span>
-          <h2 class="card-title">Klub / Združenie</h2>
-          <div class="card-price">€650</div>
+          <h2 class="card-title">Štandard</h2>
+          <div class="card-price">€800</div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Viacero podstránok</li>
@@ -1583,14 +1599,14 @@
             <li>Gmail notifikácie</li>
             <li>Google Analytics + Search Console</li>
           </ul>
-          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Klub%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
-          <button class="btn-add-cart" data-add-to-cart data-id="klub" data-name="Klub / Združenie" data-price="€650"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20%C5%A0tandard%20bal%C3%ADk" target="_blank" rel="noopener" class="btn-cta filled">Mám záujem</a>
+          <button class="btn-add-cart" data-add-to-cart data-id="standart" data-name="Štandard" data-price="€800"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
         </article>
 
         <!-- Firemný web -->
         <article class="card">
           <h2 class="card-title">Firemný web</h2>
-          <div class="card-price">€900</div>
+          <div class="card-price">€1 200</div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Vlastný grafický dizajn</li>
@@ -1600,7 +1616,24 @@
             <li>Optimalizácia rýchlosti (Core Web Vitals)</li>
           </ul>
           <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Firemnp%C3%BD%20web" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
-          <button class="btn-add-cart" data-add-to-cart data-id="firemnyweb" data-name="Firemný web" data-price="€900"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
+          <button class="btn-add-cart" data-add-to-cart data-id="firemnyweb" data-name="Firemný web" data-price="€1 200"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
+        </article>
+
+        <!-- Vlastný systém -->
+        <article class="card">
+          <h2 class="card-title">Vlastný systém</h2>
+          <div class="card-price">Na mieru</div>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Cena podľa náročnosti</li>
+            <li>Komplexná webová aplikácia</li>
+            <li>Vlastná logika a funkcie</li>
+            <li>Integrácie tretích strán</li>
+            <li>Administračné rozhranie</li>
+            <li>Individuálna konzultácia</li>
+          </ul>
+          <a href="https://mail.google.com/mail/?view=cm&to=strananekm@gmail.com&su=Z%C3%A1ujem%20o%20Vlastn%C3%BD%20syst%C3%A9m" target="_blank" rel="noopener" class="btn-cta">Mám záujem</a>
+          <button class="btn-add-cart" data-add-to-cart data-id="vlastny" data-name="Vlastný systém" data-price="individuálna ponuka"><i class="fa-solid fa-cart-plus"></i> Pridať do košíka</button>
         </article>
 
       </div>
@@ -1615,14 +1648,14 @@
           <button class="billing-btn active" data-billing="monthly">Mesačne</button>
           <button class="billing-btn" data-billing="annual">Ročne <span class="billing-save-tag">−10%</span></button>
         </div>
-        <p class="billing-note" id="billing-note-sprava" hidden>Platíte ročne — ušetríte <strong id="billing-savings">až €72 ročne</strong></p>
+        <p class="billing-note" id="billing-note-sprava" hidden>Platíte ročne — ušetríte <strong id="billing-savings">až €96 ročne</strong></p>
       </div>
       <div class="cards-grid cols-2">
 
         <!-- Basic -->
         <article class="card">
           <h2 class="card-title">Basic</h2>
-          <div class="card-price" id="sprava-basic-price" data-monthly="40" data-annual="36">€40 <span class="period">/mes</span></div>
+          <div class="card-price" id="sprava-basic-price" data-monthly="50" data-annual="45">€50 <span class="period">/mes</span></div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Aktualizácie systému</li>
@@ -1641,7 +1674,7 @@
         <article class="card featured">
           <span class="card-badge">Odporúčané</span>
           <h2 class="card-title">Štandard</h2>
-          <div class="card-price" id="sprava-standart-price" data-monthly="60" data-annual="54">€60 <span class="period">/mes</span></div>
+          <div class="card-price" id="sprava-standart-price" data-monthly="80" data-annual="72">€80 <span class="period">/mes</span></div>
           <div class="card-divider"></div>
           <ul class="card-features">
             <li>Všetko z Basic</li>
@@ -1668,13 +1701,13 @@
       <div class="extras-grid">
         <div class="extra-item">
           <div class="extra-item-name">Nová podstránka</div>
-          <div class="extra-item-price">od €80</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-podstranka" data-name="Nová podstránka" data-price="od €80"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €100</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-podstranka" data-name="Nová podstránka" data-price="od €100"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Grafické práce</div>
-          <div class="extra-item-price">od €30/hod</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-grafika" data-name="Grafické práce" data-price="od €30/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €40/hod</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-grafika" data-name="Grafické práce" data-price="od €40/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">E-shop</div>
@@ -1683,33 +1716,33 @@
         </div>
         <div class="extra-item">
           <div class="extra-item-name">SEO audit</div>
-          <div class="extra-item-price">od €120</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-seo" data-name="SEO audit" data-price="od €120"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €150</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-seo" data-name="SEO audit" data-price="od €150"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Tvorba loga</div>
-          <div class="extra-item-price">od €90</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-logo" data-name="Tvorba loga" data-price="od €90"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €150</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-logo" data-name="Tvorba loga" data-price="od €150"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Nastavenie e-mailu</div>
-          <div class="extra-item-price">od €40</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-email" data-name="Nastavenie e-mailu" data-price="od €40"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €50</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-email" data-name="Nastavenie e-mailu" data-price="od €50"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Copywriting</div>
-          <div class="extra-item-price">od €25/hod</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-copy" data-name="Copywriting" data-price="od €25/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €35/hod</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-copy" data-name="Copywriting" data-price="od €35/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Správa sociálnych sietí</div>
-          <div class="extra-item-price">od €60/mes</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-social" data-name="Správa sociálnych sietí" data-price="od €60/mes"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €80/mes</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-social" data-name="Správa sociálnych sietí" data-price="od €80/mes"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
         <div class="extra-item">
           <div class="extra-item-name">Školenie a konzultácia</div>
-          <div class="extra-item-price">od €50/hod</div>
-          <button class="extra-item-add" data-add-to-cart data-id="extra-skolenie" data-name="Školenie a konzultácia" data-price="od €50/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
+          <div class="extra-item-price">od €60/hod</div>
+          <button class="extra-item-add" data-add-to-cart data-id="extra-skolenie" data-name="Školenie a konzultácia" data-price="od €60/hod"><i class="fa-solid fa-plus"></i> Pridať</button>
         </div>
       </div>
     </div>
