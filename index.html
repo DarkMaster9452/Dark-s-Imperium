@@ -324,7 +324,7 @@
     .card.featured {
       background: var(--bg-card-featured);
       border-color: var(--border-gold);
-      padding-top: 52px;
+      padding-top: 36px;
       box-shadow:
         0 0 60px rgba(249, 115, 22, 0.07),
         0 0 0 1px rgba(249, 115, 22, 0.15);
@@ -360,8 +360,9 @@
 
     .card-badge {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: -16px;
+      left: 50%;
+      transform: translateX(-50%);
       background: var(--accent-gold);
       color: var(--bg-primary);
       font-family: var(--font-body);
@@ -1605,7 +1606,7 @@
   <!-- PRICING: TVORBA -->
   <section id="section-tvorba" class="pricing-section active" role="tabpanel">
     <div class="container">
-      <div class="cards-grid cols-3">
+      <div class="cards-grid cols-3" style="padding-top:20px">
 
         <!-- Starter -->
         <article class="card">
