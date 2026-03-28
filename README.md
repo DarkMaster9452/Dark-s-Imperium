@@ -7,7 +7,7 @@
 
 ## O projekte
 
-Jednoduchá, responzívna stránka prezentujúca cenové balíky SpinteQ. Obsahuje prehľad cien za tvorbu webov, mesačnú správu a doplnkové služby.
+Responzívna single-page aplikácia prezentujúca cenové balíky SpinteQ. Obsahuje prehľad cien za tvorbu webov, mesačnú správu a doplnkové služby s prepínačom mesačné / ročné fakturácie.
 
 ## Obsah stránky
 
@@ -17,14 +17,14 @@ Jednoduchá, responzívna stránka prezentujúca cenové balíky SpinteQ. Obsahu
 |---|---|---|
 | Starter | €400 | Prezentačné weby do 5 podstránok |
 | Klub / Združenie | €650 | Kluby, spolky, organizácie s vlastným systémom |
-| Firemný web | €900 | Firmy s dôrazom na dizajn a konverzie |
+| Firemný web | €1 200+ | Firmy s dôrazom na dizajn a konverzie |
 
 ### Správa webu
 
-| Balík | Cena | Obsah |
-|---|---|---|
-| Basic | €40/mes | Zálohy, hosting, monitoring |
-| Štandard | €60/mes | Basic + zmeny obsahu, aktuality, podpora |
+| Balík | Mesačne | Ročne | Obsah |
+|---|---|---|---|
+| Basic | €45/mes | €41/mes | Aktualizácie systému, zálohy, hosting, monitoring |
+| Štandard | €60/mes | €53/mes | Basic + zmeny obsahu, aktuality, podpora |
 
 ### Doplnkové služby
 
@@ -35,7 +35,17 @@ Nové podstránky, grafika, SEO audit, logo, e-mail, copywriting, sociálne siet
 ## Technológie
 
 - **HTML / CSS / JavaScript** – statická stránka
+- **Three.js** – 3D animovaný gradient na pozadí
+- **Cormorant + Work Sans** – typografia (Google Fonts)
+- **Font Awesome** – ikony
 - **GitHub Pages** – hosting
+
+## Funkcie
+
+- Prepínač mesačná / ročná fakturácia (ceny sa prepočítavajú dynamicky)
+- Three.js animovaný shader na pozadí
+- Tmavý dizajn so zlatými akcentmi
+- Plne responzívny layout
 
 ## Lokálne spustenie
 
@@ -47,8 +57,8 @@ cd Dark-s-Imperium
 
 ## Kontakt
 
-Záujem o služby: [info@spinteq.sk](mailto:strananekm@gmail.com)  
+Záujem o služby: [info@spinteq.sk](mailto:info@spinteq.sk)
 
 ---
 
-© 2025 Martin Straňanek – SpinteQ
+© 2026 Martin Straňanek – SpinteQ
