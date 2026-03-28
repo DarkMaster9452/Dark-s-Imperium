@@ -47,18 +47,11 @@ Nové podstránky, grafika, SEO audit, logo, e-mail, copywriting, sociálne siet
 - Tmavý dizajn so zlatými akcentmi
 - Plne responzívny layout
 
-## Lokálne spustenie
-
-```bash
-git clone https://github.com/darkmaster9452/Dark-s-Imperium.git
-cd Dark-s-Imperium
-# Otvoriť index.html v prehliadači
-```
-
+ 
 ## Kontakt
 
-Záujem o služby: [info@spinteq.sk](mailto:info@spinteq.sk)
+Záujem o služby: [strananekm@gmail,com](mailto:strananekm@gmail,com)
 
 ---
 
-© 2026 Martin Straňanek – SpinteQ
+© 2026 Martin Straňanek
